@@ -8,14 +8,14 @@ window.onload = () => {
     constructor(x, y, width, height) {
       this.x = x;
       this.y = y;
-      this.width = width + 40;
-      this.height = height + 30; //assim ele fica na linha, nao ultrapassa, mas como deixar o dino
+      this.width = width + 50;
+      this.height = height + 40;
       this.speedX = 0;
       this.direction = "l";
       this.dinoImg = new Image();
-      this.dinoImg.src = "./assets/Dino Sprite Left/Run (1)L.png";
+      this.dinoImg.src = "./assets/Dino Sprite Left/Run (3)L.png";
       this.dinoImgDir = new Image();
-      this.dinoImgDir.src = "./assets/Dino Sprite Right/Run (1).png";
+      this.dinoImgDir.src = "./assets/Dino Sprite Right/Run (3).png";
       this.dinoImgDead = new Image();
       this.dinoImgDead.src = "./assets/dino game over.png";
       this.dinoImgWin = new Image();
@@ -47,13 +47,13 @@ window.onload = () => {
         this.x += this.speedX;
       } else if (this.x < 0) {
         this.x = 1;
-      } else if (this.x >= canvas.width - this.width) {
-        this.x = canvas.width - 85; //o dino nao volta pro jogo qdo vai tudo pra direita
+      } else if (this.x > canvas.width - this.width) {
+        this.x = canvas.width - 90;
       }
     }
 
     left() {
-      return this.x + this.width;
+      return this.x;
     }
     right() {
       return this.x + this.width;
@@ -70,24 +70,40 @@ window.onload = () => {
       );
     }
   }
+  let obstaclesImages = [
+    "./assets/Food-copy/Avocado.png",
+    "./assets/Food-copy/Onion.png",
+    "./assets/Food-copy/Pickle.png",
+  ];
+
+  let obstaclesMeatsImages = [
+    "./assets/Food-copy/ChickenLeg.png",
+    "./assets/Food-copy/Boar.png",
+  ];
 
   class Obstacle {
-    constructor(x) {
+    constructor(x, image) {
       this.x = x;
       this.y = 0;
       this.width = 30;
       this.height = 30;
+      this.image = image;
     }
 
     createObstacle() {
       this.fruitImg = new Image();
-      this.fruitImg.src = "./assets/Food copy/Avocado.png";
-      context.drawImage(this.fruitImg, this.x, this.y, this.width, this.height);
+      this.fruitImg.src = this.image;
+      /*obstaclesImages[Math.floor(Math.random() * obstaclesImages.length)];
+      context.drawImage(this.fruitImg, this.x, this.y, this.width, this.height);*/
     }
 
     createMeat() {
       this.meatImg = new Image();
-      this.meatImg.src = "./assets/Food copy/ChickenLeg.png";
+      this.meatImg.src = this.image;
+      console.log(this.meatImg);
+      /*obstaclesMeatsImages[
+          Math.floor(Math.random() * obstaclesMeatsImages.length)
+        ];*/
       context.drawImage(
         this.meatImg,
         this.x,
@@ -118,28 +134,42 @@ window.onload = () => {
   let player = new Player(canvas.width / 2, canvas.height - 70, 50, 50);
   let frames = 0;
   let fruits = [];
-  let lifes = 1;
-  let meat = [];
+  let lifes = 0;
+  let meats = [];
 
   function createObstaclesFunction() {
     frames += 1;
-    if (lifes < 15) {
+    if (lifes < 5) {
+      //15
       if (frames % 50 === 0) {
         fruits.push(
-          new Obstacle(Math.floor(Math.random() * (canvas.width - 25)))
+          new Obstacle(
+            Math.floor(Math.random() * (canvas.width - 25)),
+            obstaclesImages[Math.floor(Math.random() * obstaclesImages.length)]
+          )
         );
+        console.log(fruits);
       }
-    } else if (lifes >= 15) {
+    } else if (lifes >= 5) {
+      //15
       if (frames % 35 === 0) {
         fruits.push(
-          new Obstacle(Math.floor(Math.random() * (canvas.width - 25)))
+          new Obstacle(
+            Math.floor(Math.random() * (canvas.width - 25)),
+            obstaclesImages[Math.floor(Math.random() * obstaclesImages.length)]
+          )
         );
       }
     }
     if (frames % 150 === 0) {
       setTimeout(function () {
-        meat.push(
-          new Obstacle(Math.floor(Math.random() * (canvas.width - 25)))
+        meats.push(
+          new Obstacle(
+            Math.floor(Math.random() * (canvas.width - 25)),
+            obstaclesMeatsImages[
+              Math.floor(Math.random() * obstaclesMeatsImages.length)
+            ]
+          )
         );
       }, 2000);
     }
@@ -153,11 +183,11 @@ window.onload = () => {
         fruits.splice(index, 1);
       }
     });
-    meat.forEach((elem, index) => {
+    meats.forEach((elem, index) => {
       elem.createMeat();
       elem.moveObstacle();
       if (elem.y >= canvas.height) {
-        meat.splice(index, 1);
+        meats.splice(index, 1);
       }
     });
   }
@@ -180,36 +210,27 @@ window.onload = () => {
         fruits.forEach((element, index) => {
           fruits.splice(index, 1);
         });
-        context.font = "40px verdana";
-        context.fillStyle = "#fff";
-        context.fillText("GAME OVER! SPECIES EXTINCT", 6, canvas.height / 2);
-        this.dinoImgDead; //img dino game over?
+        context.drawImage(player.dinoImgDead, (this.x = 100), (this.y = 100));
       }
     }
   }
 
   function checkCatch() {
-    let catched = meat.some(function (meat) {
-      return player.crashWith(meat);
+    let catched = meats.some(function (meats) {
+      return player.crashWith(meats);
     });
 
     if (catched) {
       if (lifes >= 0) {
-        meat.forEach((element, index) => {
-          meat.splice(index, 1);
+        meats.forEach((element, index) => {
+          meats.splice(index, 1);
           lifes += 1;
         });
       }
       if (lifes >= 10) {
         lifes = 10;
         cancelAnimationFrame(id);
-        context.font = "40px verdana";
-        context.fillStyle = "#fff";
-        context.fillText(
-          "OK. I'm full now, thanks",
-          canvas.width / 3,
-          canvas.height / 2
-        );
+        context.drawImage(player.dinoImgWin, (this.x = 100), (this.y = 100));
       }
     }
   }
@@ -219,7 +240,7 @@ window.onload = () => {
     context.fillStyle = "#051850";
     context.rect(220, 0, 80, 25);
     context.fill();
-    context.font = "18px serif";
+    context.font = "18px phosphate"; //serif
     context.fillStyle = "#fff";
     context.fillText("Score: " + points, 225, 17);
   }
