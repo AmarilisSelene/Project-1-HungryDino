@@ -16,6 +16,10 @@ window.onload = () => {
       this.dinoImg.src = "./assets/Dino Sprite Left/Run (1)L.png";
       this.dinoImgDir = new Image();
       this.dinoImgDir.src = "./assets/Dino Sprite Right/Run (1).png";
+      this.dinoImgDead = new Image();
+      this.dinoImgDead.src = "./assets/dino game over.png";
+      this.dinoImgWin = new Image();
+      this.dinoImgWin.src = "./assets/dino game win.png";
     }
 
     createPlayer() {
@@ -44,18 +48,18 @@ window.onload = () => {
       } else if (this.x < 0) {
         this.x = 1;
       } else if (this.x >= canvas.width - this.width) {
-        this.x = canvas.width - 50;
+        this.x = canvas.width - 85; //o dino nao volta pro jogo qdo vai tudo pra direita
       }
     }
 
     left() {
-      return this.x;
+      return this.x + this.width;
     }
     right() {
       return this.x + this.width;
     }
     top() {
-      return this.y + 10;
+      return this.y + 60;
     }
 
     crashWith(obstacle) {
@@ -117,7 +121,6 @@ window.onload = () => {
   let lifes = 1;
   let meat = [];
 
-  // Criando novos obstaculos + guardando no array + movendo
   function createObstaclesFunction() {
     frames += 1;
     if (lifes < 15) {
@@ -180,6 +183,7 @@ window.onload = () => {
         context.font = "40px verdana";
         context.fillStyle = "#fff";
         context.fillText("GAME OVER! SPECIES EXTINCT", 6, canvas.height / 2);
+        this.dinoImgDead; //img dino game over?
       }
     }
   }
@@ -212,36 +216,28 @@ window.onload = () => {
 
   function lifeScore(points) {
     context.beginPath();
-    context.fillStyle = "rgb(151, 76, 64)";
+    context.fillStyle = "#051850";
     context.rect(220, 0, 80, 25);
     context.fill();
     context.font = "18px serif";
-    context.fillStyle = "rgb(242,222,13)";
+    context.fillStyle = "#fff";
     context.fillText("Score: " + points, 225, 17);
   }
 
-  // MOTOR
   function gameUpdate() {
-    // "CLEAR" (BG)
     context.clearRect(0, 0, 700, 700);
 
-    // PRINT O PLAYER
-    player.createPlayer();
-    player.newPos();
+    player.createPlayer(); //for the player
+    player.newPos(); //for the player
 
-    // PRINT OBSTACULOS
-    createObstaclesFunction();
-    moveObstaclesFunction();
+    createObstaclesFunction(); //for the obstacles to work
+    moveObstaclesFunction(); //for the obstacles to work
 
-    // ANIMATION START
     id = requestAnimationFrame(gameUpdate);
 
-    // WIN
-    checkCatch();
-    // CRASH
-    checkCrash();
-    /* PRINT SCORE
-    lifeScore(lifes);*/
+    checkCatch(); //win
+    checkCrash(); //lose
+    lifeScore(lifes); //score
   }
 
   document.onkeydown = function (e) {

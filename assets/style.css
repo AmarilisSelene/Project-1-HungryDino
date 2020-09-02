@@ -5,7 +5,8 @@ body {
   justify-content: space-evenly;
   text-align: center;
   align-items: center;
-  font-family: "Russo One", sans-serif;
+  font-family: "Phosphate", sans-serif; /*"Russo One", sans-serif;*/
+  background-color: floralwhite;
 }
 
 canvas {
@@ -15,25 +16,35 @@ canvas {
   background-size: cover;
 }
 
-h1 {
+h1{
+  font-size: 70px;
+  color: rgb(96, 35, 35);
+  text-shadow: 2px 2px black;
+  justify-content: center;
+}
+
+/*h1 {
   letter-spacing: 3px;
   color: rgb(96, 35, 35);
   text-shadow: 2px 2px black;
   font-size: 60px;
   width: 400px;
-  justify-content: right;
+  justify-content: center;
   text-align: center;
+  font-family: "Phosphate", sans-serif;*/
 }
 
 #game-board {
   float: left;
-  border-radius: 2px solid black;
+  border-radius: 10px solid black; //colocar borda no jogo?
 }
 
 .intro-text {
   color: #870007;
-  font-weight: bolder;
+  font-weight: bold;
   text-align: center;
   justify-content: center;
   padding-left: 20px;
+  padding-right: 20px;
+  font-size: 20px;
 }
