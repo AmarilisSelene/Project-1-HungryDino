@@ -9,13 +9,13 @@
 <br>
 <h2>HOW TO PLAY</h2>
 <ul>
-<li>Press ENTER to Start/Restart or stop.</li>
-<li>Press LEFT/RIGHT arrows on your keyboard to move the dinosaur.</li>
-<li>Eat 10 meats to win. You'll lose points for eating fruits or vegetables</li>
+<li>Press ENTER to Start/Restart or stop;</li>
+<li>Press LEFT/RIGHT arrows on your keyboard to move the dinosaur;</li>
+<li>Eat 10 meats to win. You'll lose points for eating fruits or vegetables.</li>
 </ul>
 <br>
 <h2>INSTALL IT</h2>
 <ul>
-<li>Clone/Download this project</li>
-<li>Open the index.html file and play</li>
+<li>Clone/Download this project;</li>
+<li>Open the index.html file and play.</li>
 </ul>
