@@ -2,7 +2,7 @@
 
 <h1>PROJECT 1 [GAME] - HUNGRY DINO</h1>
 
-<a href="">CLICK HERE to play.</a>
+<a href="https://camilafass.github.io/Project-1-HungryDino">CLICK HERE to play.</a>
 <br>
 <h2>ABOUT THE GAME</h2>
 <p>A simple 2D web-based JavaScript game where you have to make the dinosaur eat, but only meats, so avoid fruits and vegetables.</p>
