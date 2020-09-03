@@ -7,6 +7,7 @@ window.onload = () => {
   //Sounds
   let eatSound = new Audio();
   eatSound.src = "./assets/EatSound.mp3";
+  eatSound.volume = 0.2;
   let winSound = new Audio();
   winSound.src = "./assets/DinoRoarWin.wav";
   let gameoverSound = new Audio();
@@ -246,6 +247,15 @@ window.onload = () => {
           lifes += 1;
         });
       }
+
+      if (lifes < 0) {
+        eatSound.play();
+        meats.forEach((element, index) => {
+          meats.splice(index, 1);
+          lifes += 1;
+        });
+      }
+
       if (lifes >= 10) {
         lifes = 10;
         winSound.play();
