@@ -4,6 +4,14 @@ window.onload = () => {
   let id = null;
   let start = false;
 
+  //Sounds
+  let eatSound = new Audio();
+  eatSound.src = "./assets/EatSound.mp3";
+  let winSound = new Audio();
+  winSound.src = "./assets/DinoRoarWin.wav";
+  let gameoverSound = new Audio();
+  gameoverSound.src = "./assets/GameOver.wav";
+
   class Player {
     constructor(x, y, width, height) {
       this.x = x;
@@ -48,7 +56,7 @@ window.onload = () => {
       } else if (this.x < 0) {
         this.x = 1;
       } else if (this.x > canvas.width - this.width) {
-        this.x = canvas.width - 90;
+        this.x -= 10;
       }
     }
 
@@ -73,12 +81,13 @@ window.onload = () => {
   let obstaclesImages = [
     "./assets/Food-copy/Avocado.png",
     "./assets/Food-copy/Onion.png",
-    "./assets/Food-copy/Pickle.png",
+    "./assets/Food-copy/Pineapple.png",
   ];
 
   let obstaclesMeatsImages = [
     "./assets/Food-copy/ChickenLeg.png",
     "./assets/Food-copy/Boar.png",
+    "./assets/Food-copy/Steak.png",
   ];
 
   class Obstacle {
@@ -95,6 +104,13 @@ window.onload = () => {
       this.fruitImg.src = this.image;
       /*obstaclesImages[Math.floor(Math.random() * obstaclesImages.length)];
       context.drawImage(this.fruitImg, this.x, this.y, this.width, this.height);*/
+      context.drawImage(
+        this.fruitImg,
+        this.x,
+        this.y,
+        this.width + 10,
+        this.height + 10
+      );
     }
 
     createMeat() {
@@ -199,6 +215,7 @@ window.onload = () => {
 
     if (crashed) {
       if (lifes > 0) {
+        eatSound.play();
         fruits.forEach((element, index) => {
           fruits.splice(index, 1);
           lifes -= 1;
@@ -206,6 +223,7 @@ window.onload = () => {
 
         // GAME OVER
       } else {
+        gameoverSound.play();
         cancelAnimationFrame(id);
         fruits.forEach((element, index) => {
           fruits.splice(index, 1);
@@ -222,6 +240,7 @@ window.onload = () => {
 
     if (catched) {
       if (lifes >= 0) {
+        eatSound.play();
         meats.forEach((element, index) => {
           meats.splice(index, 1);
           lifes += 1;
@@ -229,6 +248,7 @@ window.onload = () => {
       }
       if (lifes >= 10) {
         lifes = 10;
+        winSound.play();
         cancelAnimationFrame(id);
         context.drawImage(player.dinoImgWin, (this.x = 100), (this.y = 100));
       }
